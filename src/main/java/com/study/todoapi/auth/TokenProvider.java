@@ -21,7 +21,7 @@ import java.util.Map;
 public class TokenProvider {
 
     // 서명할 때 사용하는 비밀키 (512비트 이상의 랜덤 문자열)
-    @Value("${jst.secret}")
+    @Value("${jwt.secret}")
     private String SECRET_KEY;
 
     // 토큰 생성 메서드

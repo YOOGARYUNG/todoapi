@@ -32,21 +32,24 @@ public class WebSecurityConfig {
                 .and()
                 .csrf().disable()
                 .httpBasic().disable()
-
-                // 세션인증은 더이상 사용하지 않겠다
+                // 세션 인증은 더이상 사용하지 않겠다
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                // 어떤 요청에서는 인증을하고 어떤요청에서는 인등을 안할 건지 설정
-                .authorizeRequests() // 어떤 요청에서 인증을 할거냐
-                .antMatchers("/","/api/auth/**").permitAll() // 이 요청은 인증을 안해도 됨!
-//                .antMatchers(HttpMethod.POST, "/api/todos").permitAll()
-//                .antMatchers("/**").hasRole("ADMIN")
-                .anyRequest().authenticated(); // 나머지 요청은 모드 인증(로그인)하고 해야함
+                // 어떤 요청에서는 인증을하고 어떤 요청에서는 인증을 안할 건지 설정
+                .authorizeRequests() // 어떤 요청에서 인증을 할 거냐??
+                .antMatchers(HttpMethod.PUT, "/api/auth/promote").hasRole("COMMON")
+                .antMatchers("/", "/api/auth/**").permitAll() // 이 요청은 인증을 안해도 됨!
+                //.antMatchers(HttpMethod.POST, "/api/todos").permitAll()
+                //.antMatchers("/**").hasRole("ADMIN")
+                .anyRequest().authenticated() // 나머지 요청은 모두 인증(로그인)받고 해!!
+        ;
+
 
         // 토큰인증 필터 연결하기
         http.addFilterAfter(jwtAuthFilter, CorsFilter.class);
 
         return http.build();
     }
+
 }

@@ -9,6 +9,7 @@ import com.study.todoapi.todo.entity.Todo;
 import com.study.todoapi.todo.service.TodoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
@@ -45,14 +46,20 @@ public class TodoController {
         try {
             TodoListResponseDTO dtoList = todoService.create(dto, userInfo.getEmail());
             return ResponseEntity.ok().body(dtoList);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return ResponseEntity
-                    .internalServerError()
-                    .body(TodoListResponseDTO.builder().error(e.getMessage()).build());
-        }
+        } catch (IllegalStateException e) {
+           // 권한에 따른 에러
+           log.warn(e.getMessage());
+           return ResponseEntity
+                   .status(HttpStatus.UNAUTHORIZED)
+                   .body(e.getMessage());
+        } catch(Exception e){
+                log.error(e.getMessage());
+                return ResponseEntity
+                        .internalServerError()
+                        .body(TodoListResponseDTO.builder().error(e.getMessage()).build());
+            }
 
-    }
+        }
 
     // 할 일 목록 조회 요청
     @GetMapping

@@ -5,9 +5,9 @@ server:
 spring:
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://spring-db.c7w8s64ce25w.ap-northeast-2.rds.amazonaws.com:3306/spring
+    url: jdbc:mariadb://localhost:3306/spring
     username: root
-    password: mariadb1
+    password: mariadb
   jpa:
     # SQL??? ?? ? ?? DBMS? ???? ??? ????
     database-platform: org.hibernate.dialect.MariaDB106Dialect
@@ -34,3 +34,11 @@ jwt:
 
 upload:
   path: D:/spring-prj/upload
+
+# s3 setting
+aws:
+  credentials:
+    accessKey: AKIA2UC3BVFK36ZOIQZ3
+    secretKey: +ittHM6clwChOCGcENhf0yiAisCO/hrW6I
+  region: ap-northeast-2
+  bucketName: spring-todo-api-file-bucket7531
